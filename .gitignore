@@ -3,3 +3,4 @@ Makefile
 *.so
 *.o
 mkmf.log
+test.rb
