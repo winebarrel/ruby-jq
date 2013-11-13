@@ -1,15 +1,24 @@
-```ruby
-require './cjq'
+# ruby-jq
 
-jq_core = nil
+Ruby binding for JQ.
 
-begin
-  jq_core = JQ::Core.new('.[]')
+see http://stedolan.github.io/jq/
 
-  jq_core.update('[{"FOO":100},{"BAR":200}]', false) do |str|
-    p str
-  end
-ensure
-  jq_core.close if jq_core
-end
-```
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'ruby-jq'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install ruby-jq
+
+## Usage
+
+TODO: Write usage instructions here
+
