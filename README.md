@@ -6,8 +6,7 @@ see http://stedolan.github.io/jq/
 
 ## Installation
 
-First, please install libjq from head of git.
-(https://github.com/stedolan/jq)
+First, please install libjq from HEAD of [git repository](https://github.com/stedolan/jq).
 
 Add this line to your application's Gemfile:
 
