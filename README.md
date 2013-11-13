@@ -1,6 +1,6 @@
 # ruby-jq
 
-Ruby binding for JQ.
+Ruby binding for jq.
 
 see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 
