@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = JQ::VERSION
   spec.author        = "winebarrel"
   spec.email         = "sgwr_dts@yahoo.co.jp"
-  spec.description   = "Ruby binding for jq"
-  spec.summary       = "Ruby binding for jq"
+  spec.description   = "Ruby bindings for jq"
+  spec.summary       = "Ruby bindings for jq"
   spec.homepage      = "https://bitbucket.org/winebarrel/ruby-jq"
   spec.license       = "MIT"
 
