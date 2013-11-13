@@ -40,4 +40,90 @@ describe JQ do
       expect(value).to eq({"foo" => 100, "bar" => "zoo"})
     end
   end
+
+  it 'composition' do
+    src = <<-EOS
+{
+    "glossary": {
+        "title": "example glossary",
+    "GlossDiv": {
+            "title": "S",
+      "GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+          "SortAs": "SGML",
+          "GlossTerm": "Standard Generalized Markup Language",
+          "Acronym": "SGML",
+          "Abbrev": "ISO 8879:1986",
+          "GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso": ["GML", "XML"]
+                    },
+          "GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
+    EOS
+
+    expected = {
+      "glossary"=>
+        {"GlossDiv"=>
+          {"GlossList"=>
+            {"GlossEntry"=>
+              {"GlossSee"=>"markup",
+               "GlossDef"=>
+                {"GlossSeeAlso"=>["GML", "XML"],
+                 "para"=>
+                  "A meta-markup language, used to create markup languages such as DocBook."},
+               "Abbrev"=>"ISO 8879:1986",
+               "Acronym"=>"SGML",
+               "GlossTerm"=>"Standard Generalized Markup Language",
+               "SortAs"=>"SGML",
+               "ID"=>"SGML"}},
+           "title"=>"S"},
+         "title"=>"example glossary"}}
+
+    expect(JQ(src).search('.')).to eq([expected])
+
+    JQ(src).search('.') do |value|
+      expect(value).to eq(expected)
+    end
+  end
+
+  it 'parse_json => false' do
+    src = <<-EOS
+{
+    "glossary": {
+        "title": "example glossary",
+    "GlossDiv": {
+            "title": "S",
+      "GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+          "SortAs": "SGML",
+          "GlossTerm": "Standard Generalized Markup Language",
+          "Acronym": "SGML",
+          "Abbrev": "ISO 8879:1986",
+          "GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso": ["GML", "XML"]
+                    },
+          "GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
+    EOS
+
+    expected = '{"glossary":{"GlossDiv":{"GlossList":{"GlossEntry":{"GlossSee":"markup","GlossDef":{"GlossSeeAlso":["GML","XML"],"para":"A meta-markup language, used to create markup languages such as DocBook."},"Abbrev":"ISO 8879:1986","Acronym":"SGML","GlossTerm":"Standard Generalized Markup Language","SortAs":"SGML","ID":"SGML"}},"title":"S"},"title":"example glossary"}}'
+
+    expect(JQ(src, :parse_json => false).search('.')).to eq([expected])
+
+    JQ(src, :parse_json => false).search('.') do |value|
+      expect(value).to eq(expected)
+    end
+  end
 end
