@@ -126,4 +126,22 @@ describe JQ do
       expect(value).to eq(expected)
     end
   end
+
+  it 'each value' do
+    src = <<-EOS
+{"menu": {
+  "id": "file",
+  "value": "File",
+  "popup": {
+    "menuitem": [
+      {"value": "New", "onclick": "CreateNewDoc()"},
+      {"value": "Open", "onclick": "OpenDoc()"},
+      {"value": "Close", "onclick": "CloseDoc()"}
+    ]
+  }
+}}
+    EOS
+
+    expect(JQ(src).search('.menu.popup.menuitem[].value')).to eq(["New", "Open", "Close"])
+  end
 end
