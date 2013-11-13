@@ -2,7 +2,7 @@
 
 Ruby binding for JQ.
 
-see http://stedolan.github.io/jq/
+see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 
 ## Installation
 
