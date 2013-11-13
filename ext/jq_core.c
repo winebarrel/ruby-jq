@@ -1,4 +1,4 @@
-#include "cjq.h"
+#include "jq_core.h"
 
 static VALUE rb_eJQ_Error;
 
@@ -114,7 +114,7 @@ static VALUE rb_jq_update(VALUE self, VALUE buf, VALUE is_partial) {
   return Qnil;
 }
 
-void Init_cjq() {
+void Init_jq_core() {
   VALUE rb_mJQ = rb_define_module("JQ");
   VALUE rb_cJQ_Core = rb_define_class_under(rb_mJQ, "Core", rb_cObject);
   rb_eJQ_Error = rb_define_class_under(rb_mJQ, "Error", rb_eStandardError);

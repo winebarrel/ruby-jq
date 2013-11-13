@@ -1,5 +1,5 @@
-#ifndef __CJQ_H__
-#define __CJQ_H__
+#ifndef __JQ_CORE_H__
+#define __JQ_CORE_H__
 
 #include <string.h>
 #include <errno.h>
@@ -12,4 +12,4 @@ struct jq_container {
   int closed;
 };
 
-#endif //__CJQ_H__
+#endif //__JQ_CORE_H__
