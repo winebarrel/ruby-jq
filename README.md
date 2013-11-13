@@ -48,11 +48,8 @@ end
 
 jq = JQ(src, :parse_json => false)
 
-jq.search('.[]') do |value|
+jq.search('.[1].BAR') do |value|
   p value
-  # => "\"FOO\""
-  # => "{\"BAR\":[100,200]}"
-  # => "1.23"
-  # => "[1,\"2\",3]"
+  # => "[100,200]"
 end
 ```
