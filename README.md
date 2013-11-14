@@ -4,6 +4,8 @@ Ruby bindings for jq.
 
 see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 
+[![Build Status](https://drone.io/bitbucket.org/winebarrel/ruby-jq/status.png)](https://drone.io/bitbucket.org/winebarrel/ruby-jq/latest)
+
 ## Installation
 
 First, please install libjq from HEAD of [git repository](https://github.com/stedolan/jq).
