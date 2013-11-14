@@ -1,18 +1,20 @@
 require 'jq_core'
 require 'json'
+require 'tempfile'
+require 'stringio'
 
 class JQ::Parser
   BUFSIZ = 4096
 
   def initialize(src, options = {})
-    @src = src.kind_of?(IO) ? src : src.to_s
+    @src = kind_of_io?(src) ? src : src.to_s
     @options = {
       :parse_json => true,
     }.merge(options)
   end
 
   def search(program, &block)
-    @src.rewind if @src.kind_of?(IO)
+    @src.rewind if kind_of_io?(@src)
     retval = nil
 
     if block
@@ -30,9 +32,9 @@ class JQ::Parser
     end
 
     jq(program) do |jq_core|
-      if @src.kind_of?(IO)
+      if kind_of_io?(@src)
         while buf = @src.read(BUFSIZ)
-          jq_core.update(buf, !src.eof?, &block)
+          jq_core.update(buf, !@src.eof?, &block)
         end
       else
         jq_core.update(@src, false, &block)
@@ -60,5 +62,9 @@ class JQ::Parser
     else
       str
     end
+  end
+
+  def kind_of_io?(obj)
+    [IO, Tempfile, StringIO].any? {|c| obj.kind_of?(c) }
   end
 end
