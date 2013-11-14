@@ -7,4 +7,4 @@ Rake::ExtensionTask.new('jq_core') do |ext|
   ext.ext_dir = 'ext'
 end
 
-task :default => :spec
+task :default => [:compile, :spec]
