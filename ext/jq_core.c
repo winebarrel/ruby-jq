@@ -2,11 +2,8 @@
 
 static VALUE rb_eJQ_Error;
 
-void rb_jq_free(struct jq_container *p) {
+static void rb_jq_free(struct jq_container *p) {
   xfree(p);
-}
-
-static void rb_jq_mark(struct jq_container *p) {
 }
 
 static VALUE rb_jq_alloc(VALUE klass) {
@@ -14,7 +11,7 @@ static VALUE rb_jq_alloc(VALUE klass) {
   p = ALLOC(struct jq_container);
   p->jq = NULL;
   p->closed = 1;
-  return Data_Wrap_Struct(klass, rb_jq_mark, rb_jq_free, p);
+  return Data_Wrap_Struct(klass, 0, rb_jq_free, p);
 }
 
 static VALUE rb_jq_initialize(VALUE self, VALUE program) {
