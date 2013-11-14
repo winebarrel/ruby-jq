@@ -144,4 +144,10 @@ describe JQ do
 
     expect(JQ(src).search('.menu.popup.menuitem[].value')).to eq(["New", "Open", "Close"])
   end
+
+  it 'compile error' do
+    expect {
+      JQ('{}').search('...')
+    }.to raise_error(JQ::Error)
+  end
 end
