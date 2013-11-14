@@ -10,6 +10,7 @@ static VALUE rb_jq_alloc(VALUE klass) {
   struct jq_container *p;
   p = ALLOC(struct jq_container);
   p->jq = NULL;
+  p->parser = NULL;
   p->closed = 1;
   return Data_Wrap_Struct(klass, 0, rb_jq_free, p);
 }
@@ -35,6 +36,7 @@ static VALUE rb_jq_initialize(VALUE self, VALUE program) {
   }
 
   p->jq = jq;
+  p->parser = NULL;
   p->closed = 0;
 
   return Qnil;
@@ -46,6 +48,8 @@ static VALUE rb_jq_close(VALUE self) {
 
   if (!p->closed) {
     jq_teardown(&p->jq);
+    p->jq = NULL;
+    p->parser = NULL;
     p->closed = 1;
   }
 
@@ -65,40 +69,27 @@ static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status) {
   jv_free(result);
 }
 
-static void jq_parse(jq_state *jq, char *buf, int is_partial, VALUE (*proc)()) {
-  struct jv_parser* parser = jv_parser_new();
+static void jq_parse(jq_state *jq, struct jv_parser *parser, VALUE (*proc)(), int *status, VALUE *errmsg) {
   jv value;
-  int status = 0, error = 0;
-  VALUE errmsg;
 
-  jv_parser_set_buf(parser, buf, strlen(buf), is_partial);
-
-  while (jv_is_valid((value = jv_parser_next(parser))) && status == 0) {
-    jq_process(jq, value, proc, &status);
+  while (jv_is_valid((value = jv_parser_next(parser))) && *status == 0) {
+    jq_process(jq, value, proc, status);
   }
 
   if (jv_invalid_has_msg(jv_copy(value))) {
     jv msg = jv_invalid_get_msg(value);
-    error = 1;
-    errmsg = rb_str_new2(jv_string_value(msg));
+    *errmsg = rb_str_new2(jv_string_value(msg));
     jv_free(msg);
   } else {
     jv_free(value);
   }
-
-  jv_parser_free(parser);
-
-  if (status != 0) {
-    rb_jump_tag(status);
-  }
-
-  if (error) {
-    rb_raise(rb_eJQ_Error, "%s", RSTRING_PTR(errmsg));
-  }
 }
 
-static VALUE rb_jq_update(VALUE self, VALUE buf, VALUE is_partial) {
+static VALUE rb_jq_update(VALUE self, VALUE buf, VALUE v_is_partial) {
   struct jq_container *p;
+  int is_partial = v_is_partial ? 1 : 0;
+  int status = 0;
+  VALUE errmsg = Qnil;
 
   if (!rb_block_given_p()) {
     rb_raise(rb_eArgError, "no block given");
@@ -106,7 +97,26 @@ static VALUE rb_jq_update(VALUE self, VALUE buf, VALUE is_partial) {
 
   Data_Get_Struct(self, struct jq_container, p);
   Check_Type(buf, T_STRING);
-  jq_parse(p->jq, RSTRING_PTR(buf), is_partial ? 1 : 0, rb_yield);
+
+  if (!p->parser) {
+    p->parser = jv_parser_new();
+  }
+
+  jv_parser_set_buf(p->parser, RSTRING_PTR(buf), RSTRING_LEN(buf), is_partial);
+  jq_parse(p->jq, p->parser, rb_yield, &status, &errmsg);
+
+  if (!is_partial) {
+    jv_parser_free(p->parser);
+    p->parser = NULL;
+  }
+
+  if (status != 0) {
+    rb_jump_tag(status);
+  }
+
+  if (!NIL_P(errmsg)) {
+    rb_raise(rb_eJQ_Error, "%s", RSTRING_PTR(errmsg));
+  }
 
   return Qnil;
 }

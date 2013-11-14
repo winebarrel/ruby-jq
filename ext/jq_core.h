@@ -9,6 +9,7 @@
 
 struct jq_container {
   jq_state *jq;
+  struct jv_parser *parser;
   int closed;
 };
 
