@@ -1,2 +1,2 @@
-%w(lib ext).each {|i| $: << File.dirname(__FILE__) + "/../#{i}" }
+$: << File.dirname(__FILE__) + '/../lib'
 require 'jq'
