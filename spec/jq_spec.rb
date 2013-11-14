@@ -203,4 +203,12 @@ describe JQ do
       JQ('{}').search('...')
     }.to raise_error(JQ::Error)
   end
+
+  it 'runtime error' do
+    expect {
+      JQ('{}').search('.') do |value|
+        raise 'runtime error'
+      end
+    }.to raise_error(RuntimeError)
+  end
 end
