@@ -10,6 +10,16 @@ see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 
 First, please install libjq from HEAD of [git repository](https://github.com/stedolan/jq).
 
+```sh
+git clone https://github.com/stedolan/jq.git
+cd jq
+autoreconf -i
+./configure --enable-shared
+make
+sudo make install
+sudo ldconfig
+```
+
 Add this line to your application's Gemfile:
 
     gem 'ruby-jq'
