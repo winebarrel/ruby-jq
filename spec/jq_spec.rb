@@ -266,4 +266,24 @@ describe JQ do
       end
     }.to raise_error(RuntimeError)
   end
+
+  it 'query for hash' do
+    src = {'FOO' => 100, 'BAR' => [200, 200]}
+
+    expect(src.jq('.BAR[]')).to eq([200, 200])
+
+    src.jq('.BAR[]') do |value|
+      expect(value).to eq(200)
+    end
+  end
+
+  it 'query for array' do
+    src = ['FOO', 100, 'BAR', [200, 200]]
+
+    expect(src.jq('.[3][]')).to eq([200, 200])
+
+    src.jq('.[3][]') do |value|
+      expect(value).to eq(200)
+    end
+  end
 end
