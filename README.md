@@ -20,8 +20,6 @@ sudo make install
 sudo ldconfig
 ```
 
-
-
 Add this line to your application's Gemfile:
 
     gem 'ruby-jq'
