@@ -65,3 +65,17 @@ jq.search('.[1].BAR') do |value|
   # => "[100,200]"
 end
 ```
+
+### Query for Hash/Array
+
+```ruby
+require 'jq/extend'
+
+p {'FOO' => 100, 'BAR' => [200, 200]}.jq('.BAR[]')
+# => [200, 200]
+
+['FOO', 100, 'BAR', [200, 200]].jq('.[3][]') do |value|
+  p value
+  # => 200
+end
+```
