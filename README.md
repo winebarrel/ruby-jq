@@ -4,6 +4,7 @@ Ruby bindings for jq.
 
 see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 
+[![Gem Version](https://badge.fury.io/rb/ruby-jq.png)](http://badge.fury.io/rb/ruby-jq)
 [![Build Status](https://drone.io/bitbucket.org/winebarrel/ruby-jq/status.png)](https://drone.io/bitbucket.org/winebarrel/ruby-jq/latest)
 
 ## Installation
