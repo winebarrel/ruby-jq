@@ -99,7 +99,8 @@ static VALUE rb_jq_update(VALUE self, VALUE buf, VALUE v_is_partial) {
   Check_Type(buf, T_STRING);
 
   if (!p->parser) {
-    p->parser = jv_parser_new();
+    jv_parser_flags parser_flags = 0;
+    p->parser = jv_parser_new(parser_flags);
   }
 
   jv_parser_set_buf(p->parser, RSTRING_PTR(buf), RSTRING_LEN(buf), is_partial);

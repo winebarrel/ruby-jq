@@ -227,11 +227,15 @@ describe JQ do
     EOS
 
     expected = '{"glossary":{"GlossDiv":{"GlossList":{"GlossEntry":{"GlossSee":"markup","GlossDef":{"GlossSeeAlso":["GML","XML"],"para":"A meta-markup language, used to create markup languages such as DocBook."},"Abbrev":"ISO 8879:1986","Acronym":"SGML","GlossTerm":"Standard Generalized Markup Language","SortAs":"SGML","ID":"SGML"}},"title":"S"},"title":"example glossary"}}'
+    searched = JQ(src, :parse_json => false).search('.')
 
-    expect(JQ(src, :parse_json => false).search('.')).to eq([expected])
+    expect(searched.length).to eq(1)
+    expect(searched[0]).to be_kind_of(String)
+    expect(JSON.parse(searched[0])).to eq(JSON.parse(expected))
 
     JQ(src, :parse_json => false).search('.') do |value|
-      expect(value).to eq(expected)
+      expect(value).to be_kind_of(String)
+      expect(JSON.parse(value)).to eq(JSON.parse(expected))
     end
   end
 
