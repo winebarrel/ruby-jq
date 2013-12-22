@@ -21,7 +21,7 @@ sudo make install
 sudo ldconfig
 ```
 
-(You can download it from [here](https://bitbucket.org/winebarrel/ruby-jq/downloads/libjq-osx-10.8.5-2003a0440f3b75f7cdc216e8254a1eb2e466843c.tar.gz) if you're using OSX)
+(You can download it from [here](https://bitbucket.org/winebarrel/ruby-jq/downloads) if you're using OSX)
 
 
 Add this line to your application's Gemfile:
