@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = "sgwr_dts@yahoo.co.jp"
   spec.description   = "Ruby bindings for jq"
   spec.summary       = "Ruby bindings for jq"
-  spec.homepage      = "https://bitbucket.org/winebarrel/ruby-jq"
+  spec.homepage      = "https://github.com/winebarrel/ruby-jq"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
