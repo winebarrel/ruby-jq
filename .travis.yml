@@ -8,10 +8,13 @@ before_script:
 - ./configure
 - make
 - sudo make install
+- cd ..
 - sudo apt-get install flex libonig2 libonig-dev
-- gem install bonsai
 - git clone https://github.com/stedolan/jq.git
 - cd jq
+- cd docs
+- bundle install
+- cd ..
 - autoreconf -i
 - ./configure --enable-shared
 - make
