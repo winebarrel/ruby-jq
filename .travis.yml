@@ -14,7 +14,8 @@ before_script:
 - cd jq
 - autoreconf -i
 - ./configure --enable-shared
-- BUNDLE_GEMFILE='' make
+- BUNDLE_GEMFILE="$PWD/docs/Gemfile" bundle install
+- BUNDLE_GEMFILE="$PWD/docs/Gemfile" bundle exec make
 - sudo make install
 - sudo ldconfig
 - cd ..
