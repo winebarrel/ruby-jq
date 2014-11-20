@@ -5,7 +5,7 @@ Ruby bindings for jq.
 see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 
 [![Gem Version](https://badge.fury.io/rb/ruby-jq.svg)](http://badge.fury.io/rb/ruby-jq)
-[![Build Status](https://drone.io/bitbucket.org/winebarrel/ruby-jq/status.png)](https://drone.io/bitbucket.org/winebarrel/ruby-jq/latest)
+[![Build Status](https://travis-ci.org/winebarrel/ruby-jq.svg?branch=master)](https://travis-ci.org/winebarrel/ruby-jq)
 
 ## Installation
 
@@ -20,9 +20,6 @@ make
 sudo make install
 sudo ldconfig
 ```
-
-(You can download it from [here](https://bitbucket.org/winebarrel/ruby-jq/downloads) if you're using OSX)
-
 
 Add this line to your application's Gemfile:
 
