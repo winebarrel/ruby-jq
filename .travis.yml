@@ -12,13 +12,9 @@ before_script:
 - sudo apt-get install flex libonig2 libonig-dev
 - git clone https://github.com/stedolan/jq.git
 - cd jq
-- cd docs
-- env
-- bundle install
-- cd ..
 - autoreconf -i
 - ./configure --enable-shared
-- make
+- BUNDLE_GEMFILE='' make
 - sudo make install
 - sudo ldconfig
 - cd ..
