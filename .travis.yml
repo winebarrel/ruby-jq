@@ -13,6 +13,7 @@ before_script:
 - git clone https://github.com/stedolan/jq.git
 - cd jq
 - cd docs
+- env
 - bundle install
 - cd ..
 - autoreconf -i
