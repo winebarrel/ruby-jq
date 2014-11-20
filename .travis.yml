@@ -9,6 +9,7 @@ before_script:
 - make
 - sudo make install
 - sudo apt-get install flex libonig2 libonig-dev
+- gem install bonsai
 - git clone https://github.com/stedolan/jq.git
 - cd jq
 - autoreconf -i
