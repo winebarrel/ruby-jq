@@ -1,8 +1,3 @@
-require 'jq_core'
-require 'json'
-require 'tempfile'
-require 'stringio'
-
 class JQ::Parser
   BUFSIZ = 4096
 
@@ -58,7 +53,7 @@ class JQ::Parser
 
   def parse_json(str)
     if @options[:parse_json]
-      JSON.parse("[#{str}]").first
+      MultiJson.load("[#{str}]").first
     else
       str
     end

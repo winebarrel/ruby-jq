@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe JQ do
   it 'int' do
     expect(JQ('1').search('.')).to eq([1])

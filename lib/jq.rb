@@ -1,3 +1,8 @@
+require 'multi_json'
+require 'tempfile'
+require 'stringio'
+
+require 'jq_core'
 require 'jq/version'
 require 'jq/parser'
 
