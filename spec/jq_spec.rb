@@ -229,11 +229,11 @@ describe JQ do
 
     expect(searched.length).to eq(1)
     expect(searched[0]).to be_kind_of(String)
-    expect(JSON.parse(searched[0])).to eq(JSON.parse(expected))
+    expect(MultiJson.load(searched[0])).to eq(MultiJson.load(expected))
 
     JQ(src, :parse_json => false).search('.') do |value|
       expect(value).to be_kind_of(String)
-      expect(JSON.parse(value)).to eq(JSON.parse(expected))
+      expect(MultiJson.load(value)).to eq(MultiJson.load(expected))
     end
   end
 
@@ -267,6 +267,14 @@ describe JQ do
         raise 'runtime error'
       end
     }.to raise_error(RuntimeError)
+  end
+
+  it 'runtime halt in jq raises error' do
+    expect {
+      JQ('{}').search('.data | keys') do |value|
+        value
+      end
+    }.to raise_error(JQ::Error).with_message('null (null) has no keys')
   end
 
   it 'query for hash' do

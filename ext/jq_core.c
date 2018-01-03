@@ -56,7 +56,7 @@ static VALUE rb_jq_close(VALUE self) {
   return Qnil;
 }
 
-static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status) {
+static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status, VALUE *errmsg) {
   jq_start(jq, value, 0);
   jv result;
 
@@ -66,14 +66,20 @@ static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status) {
     rb_protect(proc, rb_str_new2(str), status);
   }
 
-  jv_free(result);
+  if (jv_invalid_has_msg(jv_copy(result))) {
+    jv msg = jv_invalid_get_msg(result);
+    *errmsg = rb_str_new2(jv_string_value(msg));
+    jv_free(msg);
+  } else {
+    jv_free(result);
+  }
 }
 
 static void jq_parse(jq_state *jq, struct jv_parser *parser, VALUE (*proc)(), int *status, VALUE *errmsg) {
   jv value;
 
   while (jv_is_valid((value = jv_parser_next(parser))) && *status == 0) {
-    jq_process(jq, value, proc, status);
+    jq_process(jq, value, proc, status, errmsg);
   }
 
   if (jv_invalid_has_msg(jv_copy(value))) {
