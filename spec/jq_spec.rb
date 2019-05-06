@@ -1,5 +1,5 @@
 describe JQ do
-  it 'int' do
+  specify 'int' do
     expect(JQ('1').search('.')).to eq([1])
 
     JQ('1').search('.') do |value|
@@ -7,7 +7,7 @@ describe JQ do
     end
   end
 
-  it 'float' do
+  specify 'float' do
     expect(JQ('1.2').search('.')).to eq([1.2])
 
     JQ('1.2').search('.') do |value|
@@ -15,7 +15,7 @@ describe JQ do
     end
   end
 
-  it 'string' do
+  specify 'string' do
     expect(JQ('"Zzz"').search('.')).to eq(["Zzz"])
 
     JQ('"Zzz"').search('.') do |value|
@@ -23,7 +23,7 @@ describe JQ do
     end
   end
 
-  it 'array' do
+  specify 'array' do
     expect(JQ('[1, "2", 3]').search('.')).to eq([[1, "2", 3]])
 
     JQ('[1, "2", 3]').search('.') do |value|
@@ -31,7 +31,7 @@ describe JQ do
     end
   end
 
-  it 'hash' do
+  specify 'hash' do
     expect(JQ('{"foo":100, "bar":"zoo"}').search('.')).to eq([{"foo" => 100, "bar" => "zoo"}])
 
     JQ('{"foo":100, "bar":"zoo"}').search('.') do |value|
@@ -39,7 +39,7 @@ describe JQ do
     end
   end
 
-  it 'composition' do
+  specify 'composition' do
     src = <<-EOS
 {
     "glossary": {
@@ -90,7 +90,7 @@ describe JQ do
     end
   end
 
-  it 'read from file' do
+  specify 'read from file' do
     Tempfile.open("ruby-jq.spec.#{$$}") do |src|
       src.puts(<<-EOS)
 {
@@ -143,7 +143,7 @@ describe JQ do
     end
   end
 
-  it 'read from file (> 4096)' do
+  specify 'read from file (> 4096)' do
     Tempfile.open("ruby-jq.spec.#{$$}") do |src|
       src.puts('[' + (1..10).map { (<<-EOS) }.join(',') + ']')
 {
@@ -198,7 +198,7 @@ describe JQ do
     end
   end
 
-  it 'parse_json => false' do
+  specify 'parse_json => false' do
     src = <<-EOS
 {
     "glossary": {
@@ -237,7 +237,7 @@ describe JQ do
     end
   end
 
-  it 'each value' do
+  specify 'each value' do
     src = <<-EOS
 {"menu": {
   "id": "file",
@@ -255,13 +255,13 @@ describe JQ do
     expect(JQ(src).search('.menu.popup.menuitem[].value')).to eq(["New", "Open", "Close"])
   end
 
-  it 'compile error' do
+  specify 'compile error' do
     expect {
       JQ('{}').search('...')
     }.to raise_error(JQ::Error)
   end
 
-  it 'runtime error' do
+  specify 'runtime error' do
     expect {
       JQ('{}').search('.') do |value|
         raise 'runtime error'
@@ -269,7 +269,7 @@ describe JQ do
     }.to raise_error(RuntimeError)
   end
 
-  it 'runtime halt in jq raises error' do
+  specify 'runtime halt in jq raises error' do
     expect {
       JQ('{}').search('.data | keys') do |value|
         value
@@ -277,7 +277,7 @@ describe JQ do
     }.to raise_error(JQ::Error).with_message('null (null) has no keys')
   end
 
-  it 'query for hash' do
+  specify 'query for hash' do
     src = {'FOO' => 100, 'BAR' => [200, 200]}
 
     expect(src.jq('.BAR[]')).to eq([200, 200])
@@ -287,7 +287,7 @@ describe JQ do
     end
   end
 
-  it 'query for array' do
+  specify 'query for array' do
     src = ['FOO', 100, 'BAR', [200, 200]]
 
     expect(src.jq('.[3][]')).to eq([200, 200])
