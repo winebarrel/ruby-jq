@@ -7,19 +7,12 @@ see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
 [![Gem Version](https://badge.fury.io/rb/ruby-jq.svg)](http://badge.fury.io/rb/ruby-jq)
 [![Build Status](https://travis-ci.org/winebarrel/ruby-jq.svg?branch=master)](https://travis-ci.org/winebarrel/ruby-jq)
 
+## Prerequisites
+
+jq requires the Oniguruma library to provide regex support. To install Oniguruma
+for your system, please follow the instructions in the [jq FAQ](https://github.com/stedolan/jq/wiki/FAQ#installation).
+
 ## Installation
-
-First, please install libjq from HEAD of [git repository](https://github.com/stedolan/jq).
-
-```sh
-git clone https://github.com/stedolan/jq.git
-cd jq
-autoreconf -i
-./configure --enable-shared
-make
-sudo make install
-sudo ldconfig
-```
 
 Add this line to your application's Gemfile:
 
@@ -32,6 +25,13 @@ And then execute:
 Or install it yourself as:
 
     $ gem install ruby-jq
+
+### Using system libraries
+
+By default, ruby-jq downloads and compiles its own version of libjq. If you
+would like to use your own version of libjq, you can skip this process by
+passing the `--use-system-libraries` flag to `gem install`, or by setting the
+`RUBYJQ_USE_SYSTEM_LIBRARIES` env var.
 
 ## Usage
 
