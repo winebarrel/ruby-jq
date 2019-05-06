@@ -1,31 +1,14 @@
+sudo: false
 language: ruby
 rvm:
-- 2.2.9
-- 2.3.6
-- 2.4.3
-- 2.5.0
-before_install:
-- gem update --system
-- gem install bundler
-before_script:
-- wget http://ftp.gnu.org/gnu/bison/bison-3.0.2.tar.gz
-- tar xf bison-3.0.2.tar.gz
-- cd bison-3.0.2
-- ./configure
-- make
-- sudo make install
-- cd ..
-- sudo apt-get install flex libonig2 libonig-dev
-- git clone https://github.com/stedolan/jq.git
-- cd jq
-- autoreconf -i
-- ./configure --enable-shared
-- rm $PWD/docs/Gemfile.lock
-- BUNDLE_GEMFILE="$PWD/docs/Gemfile" bundle install
-- BUNDLE_GEMFILE="$PWD/docs/Gemfile" bundle exec make
-- sudo make install
-- sudo ldconfig
-- cd ..
+  - 2.3.8
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
 script:
-- bundle install
-- bundle exec rake
+  - bundle install
+  - bundle exec rake
+addons:
+  apt:
+    packages:
+      - libonig-dev
