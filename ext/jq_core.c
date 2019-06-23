@@ -66,6 +66,10 @@ static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status, VAL
     rb_protect(proc, rb_str_new2(str), status);
   }
 
+  if (*status != 0 && jv_is_valid(result)) {
+    while (jv_is_valid(result = jq_next(jq)));
+  }
+
   if (jv_invalid_has_msg(jv_copy(result))) {
     jv msg = jv_invalid_get_msg(result);
     *errmsg = rb_str_new2(jv_string_value(msg));

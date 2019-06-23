@@ -296,4 +296,12 @@ describe JQ do
       expect(value).to eq(200)
     end
   end
+
+  specify 'error in block' do
+    expect {
+      JQ('[1,2,3]').search('.[]') do |value|
+        1 / 0
+      end
+    }.to raise_error(ZeroDivisionError)
+  end
 end
