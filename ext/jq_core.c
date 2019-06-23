@@ -60,14 +60,13 @@ static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status, VAL
   jq_start(jq, value, 0);
   jv result;
 
-  while (jv_is_valid(result = jq_next(jq)) && *status == 0) {
+  while (jv_is_valid(result = jq_next(jq))) {
     jv dumped = jv_dump_string(result, 0);
     const char *str = jv_string_value(dumped);
-    rb_protect(proc, rb_str_new2(str), status);
-  }
 
-  if (*status != 0 && jv_is_valid(result)) {
-    while (jv_is_valid(result = jq_next(jq)));
+    if (*status == 0) {
+      rb_protect(proc, rb_str_new2(str), status);
+    }
   }
 
   if (jv_invalid_has_msg(jv_copy(result))) {
@@ -82,8 +81,10 @@ static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status, VAL
 static void jq_parse(jq_state *jq, struct jv_parser *parser, VALUE (*proc)(), int *status, VALUE *errmsg) {
   jv value;
 
-  while (jv_is_valid((value = jv_parser_next(parser))) && *status == 0) {
-    jq_process(jq, value, proc, status, errmsg);
+  while (jv_is_valid(value = jv_parser_next(parser))) {
+    if (*status == 0) {
+      jq_process(jq, value, proc, status, errmsg);
+    }
   }
 
   if (jv_invalid_has_msg(jv_copy(value))) {
