@@ -40,29 +40,29 @@ describe JQ do
   end
 
   specify 'composition' do
-    src = <<-EOS
-{
-    "glossary": {
-        "title": "example glossary",
-    "GlossDiv": {
-            "title": "S",
-      "GlossList": {
-                "GlossEntry": {
-                    "ID": "SGML",
-          "SortAs": "SGML",
-          "GlossTerm": "Standard Generalized Markup Language",
-          "Acronym": "SGML",
-          "Abbrev": "ISO 8879:1986",
-          "GlossDef": {
-                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
-            "GlossSeeAlso": ["GML", "XML"]
-                    },
-          "GlossSee": "markup"
-                }
-            }
-        }
-    }
-}
+    src = <<~EOS
+      {
+          "glossary": {
+              "title": "example glossary",
+          "GlossDiv": {
+                  "title": "S",
+            "GlossList": {
+                      "GlossEntry": {
+                          "ID": "SGML",
+                "SortAs": "SGML",
+                "GlossTerm": "Standard Generalized Markup Language",
+                "Acronym": "SGML",
+                "Abbrev": "ISO 8879:1986",
+                "GlossDef": {
+                              "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                  "GlossSeeAlso": ["GML", "XML"]
+                          },
+                "GlossSee": "markup"
+                      }
+                  }
+              }
+          }
+      }
     EOS
 
     expected = {
@@ -92,29 +92,29 @@ describe JQ do
 
   specify 'read from file' do
     Tempfile.open("ruby-jq.spec.#{$$}") do |src|
-      src.puts(<<-EOS)
-{
-    "glossary": {
-        "title": "example glossary",
-    "GlossDiv": {
-            "title": "S",
-      "GlossList": {
-                "GlossEntry": {
-                    "ID": "SGML",
-          "SortAs": "SGML",
-          "GlossTerm": "Standard Generalized Markup Language",
-          "Acronym": "SGML",
-          "Abbrev": "ISO 8879:1986",
-          "GlossDef": {
-                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
-            "GlossSeeAlso": ["GML", "XML"]
-                    },
-          "GlossSee": "markup"
+      src.puts(<<~EOS)
+        {
+            "glossary": {
+                "title": "example glossary",
+            "GlossDiv": {
+                    "title": "S",
+              "GlossList": {
+                        "GlossEntry": {
+                            "ID": "SGML",
+                  "SortAs": "SGML",
+                  "GlossTerm": "Standard Generalized Markup Language",
+                  "Acronym": "SGML",
+                  "Abbrev": "ISO 8879:1986",
+                  "GlossDef": {
+                                "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                    "GlossSeeAlso": ["GML", "XML"]
+                            },
+                  "GlossSee": "markup"
+                        }
+                    }
                 }
             }
         }
-    }
-}
       EOS
 
       expected = {
@@ -145,29 +145,29 @@ describe JQ do
 
   specify 'read from file (> 4096)' do
     Tempfile.open("ruby-jq.spec.#{$$}") do |src|
-      src.puts('[' + (1..10).map { (<<-EOS) }.join(',') + ']')
-{
-    "glossary": {
-        "title": "example glossary",
-    "GlossDiv": {
-            "title": "S",
-      "GlossList": {
-                "GlossEntry": {
-                    "ID": "SGML",
-          "SortAs": "SGML",
-          "GlossTerm": "Standard Generalized Markup Language",
-          "Acronym": "SGML",
-          "Abbrev": "ISO 8879:1986",
-          "GlossDef": {
-                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
-            "GlossSeeAlso": ["GML", "XML"]
-                    },
-          "GlossSee": "markup"
+      src.puts('[' + (1..10).map { (<<~EOS) }.join(',') + ']')
+        {
+            "glossary": {
+                "title": "example glossary",
+            "GlossDiv": {
+                    "title": "S",
+              "GlossList": {
+                        "GlossEntry": {
+                            "ID": "SGML",
+                  "SortAs": "SGML",
+                  "GlossTerm": "Standard Generalized Markup Language",
+                  "Acronym": "SGML",
+                  "Abbrev": "ISO 8879:1986",
+                  "GlossDef": {
+                                "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                    "GlossSeeAlso": ["GML", "XML"]
+                            },
+                  "GlossSee": "markup"
+                        }
+                    }
                 }
             }
         }
-    }
-}
       EOS
 
       expected = (1..10).map do
@@ -199,29 +199,29 @@ describe JQ do
   end
 
   specify 'parse_json => false' do
-    src = <<-EOS
-{
-    "glossary": {
-        "title": "example glossary",
-    "GlossDiv": {
-            "title": "S",
-      "GlossList": {
-                "GlossEntry": {
-                    "ID": "SGML",
-          "SortAs": "SGML",
-          "GlossTerm": "Standard Generalized Markup Language",
-          "Acronym": "SGML",
-          "Abbrev": "ISO 8879:1986",
-          "GlossDef": {
-                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
-            "GlossSeeAlso": ["GML", "XML"]
-                    },
-          "GlossSee": "markup"
-                }
-            }
-        }
-    }
-}
+    src = <<~EOS
+      {
+          "glossary": {
+              "title": "example glossary",
+          "GlossDiv": {
+                  "title": "S",
+            "GlossList": {
+                      "GlossEntry": {
+                          "ID": "SGML",
+                "SortAs": "SGML",
+                "GlossTerm": "Standard Generalized Markup Language",
+                "Acronym": "SGML",
+                "Abbrev": "ISO 8879:1986",
+                "GlossDef": {
+                              "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                  "GlossSeeAlso": ["GML", "XML"]
+                          },
+                "GlossSee": "markup"
+                      }
+                  }
+              }
+          }
+      }
     EOS
 
     expected = '{"glossary":{"GlossDiv":{"GlossList":{"GlossEntry":{"GlossSee":"markup","GlossDef":{"GlossSeeAlso":["GML","XML"],"para":"A meta-markup language, used to create markup languages such as DocBook."},"Abbrev":"ISO 8879:1986","Acronym":"SGML","GlossTerm":"Standard Generalized Markup Language","SortAs":"SGML","ID":"SGML"}},"title":"S"},"title":"example glossary"}}'
@@ -238,18 +238,18 @@ describe JQ do
   end
 
   specify 'each value' do
-    src = <<-EOS
-{"menu": {
-  "id": "file",
-  "value": "File",
-  "popup": {
-    "menuitem": [
-      {"value": "New", "onclick": "CreateNewDoc()"},
-      {"value": "Open", "onclick": "OpenDoc()"},
-      {"value": "Close", "onclick": "CloseDoc()"}
-    ]
-  }
-}}
+    src = <<~EOS
+      {"menu": {
+        "id": "file",
+        "value": "File",
+        "popup": {
+          "menuitem": [
+            {"value": "New", "onclick": "CreateNewDoc()"},
+            {"value": "Open", "onclick": "OpenDoc()"},
+            {"value": "Close", "onclick": "CloseDoc()"}
+          ]
+        }
+      }}
     EOS
 
     expect(JQ(src).search('.menu.popup.menuitem[].value')).to eq(["New", "Open", "Close"])
