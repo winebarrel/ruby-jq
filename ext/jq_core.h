@@ -11,6 +11,7 @@ struct jq_container {
   jq_state *jq;
   struct jv_parser *parser;
   int closed;
+  VALUE errmsg;
 };
 
 #endif //__JQ_CORE_H__

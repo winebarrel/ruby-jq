@@ -2,6 +2,23 @@
 
 static VALUE rb_eJQ_Error;
 
+static void jq_err_cb(void *data, jv msg) {
+  struct jq_container *p = (struct jq_container *) data;
+  msg = jq_format_error(msg);
+
+  VALUE errmsg = rb_str_new2(jv_string_value(msg));
+
+  if (NIL_P(p->errmsg)) {
+    p->errmsg = errmsg;
+  } else {
+    rb_str_concat(errmsg, rb_str_new2("\n"));
+    rb_str_concat(errmsg, p->errmsg);
+    p->errmsg = errmsg;
+  }
+
+  jv_free(msg);
+}
+
 static void rb_jq_free(struct jq_container *p) {
   xfree(p);
 }
@@ -12,6 +29,7 @@ static VALUE rb_jq_alloc(VALUE klass) {
   p->jq = NULL;
   p->parser = NULL;
   p->closed = 1;
+  p->errmsg = Qnil;
   return Data_Wrap_Struct(klass, 0, rb_jq_free, p);
 }
 
@@ -28,16 +46,24 @@ static VALUE rb_jq_initialize(VALUE self, VALUE program) {
     rb_raise(rb_eJQ_Error, "%s", strerror(errno));
   }
 
+  jq_set_error_cb(jq, jq_err_cb, p);
+
   compiled = jq_compile(jq, RSTRING_PTR(program));
 
   if (!compiled) {
     jq_teardown(&jq);
-    rb_raise(rb_eJQ_Error, "compile error");
+
+    if (NIL_P(p->errmsg)) {
+      rb_raise(rb_eJQ_Error, "compile error");
+    } else {
+      rb_raise(rb_eJQ_Error, "%s", RSTRING_PTR(p->errmsg));
+    }
   }
 
   p->jq = jq;
   p->parser = NULL;
   p->closed = 0;
+  p->errmsg = Qnil;
 
   return Qnil;
 }
@@ -51,6 +77,7 @@ static VALUE rb_jq_close(VALUE self) {
     p->jq = NULL;
     p->parser = NULL;
     p->closed = 1;
+    p->errmsg = Qnil;
   }
 
   return Qnil;

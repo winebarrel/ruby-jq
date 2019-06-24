@@ -258,7 +258,11 @@ describe JQ do
   specify 'compile error' do
     expect {
       JQ('{}').search('...')
-    }.to raise_error(JQ::Error)
+    }.to raise_error(JQ::Error).with_message(<<~EOS.chomp)
+      jq: 1 compile error
+      jq: error: Invalid numeric literal at EOF at line 1, column 3 (while parsing '...') at <top-level>, line 1:
+      ...
+    EOS
   end
 
   specify 'runtime error' do
