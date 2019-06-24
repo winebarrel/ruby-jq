@@ -1,0 +1,14 @@
+AllCops:
+  Exclude:
+    - 'tmp/**/*'
+  TargetRubyVersion: 2.3
+Metrics/LineLength:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false

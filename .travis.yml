@@ -15,3 +15,4 @@ addons:
 cache:
   directories:
     - /home/travis/.rvm/
+    - tmp/x86_64-linux-gnu/ports/jq/1.6/

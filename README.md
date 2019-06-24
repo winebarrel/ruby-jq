@@ -59,7 +59,10 @@ jq.search('.[]') do |value|
   # => [1, "2", 3]
 end
 
-jq = JQ(src, :parse_json => false)
+p jq.search('.[]')
+# => ["FOO", {"BAR"=>[100, 200]}, 1.23, [1, "2", 3]]
+
+jq = JQ(src, parse_json: false)
 
 jq.search('.[1].BAR') do |value|
   p value
