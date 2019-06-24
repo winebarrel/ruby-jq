@@ -46,6 +46,7 @@ module JQ
 
     def jq(program)
       jq_core = nil
+      retval = nil
 
       begin
         jq_core = JQ::Core.new(program)
