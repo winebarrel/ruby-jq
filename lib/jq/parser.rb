@@ -4,11 +4,9 @@ module JQ
   class Parser
     BUFSIZ = 4096
 
-    def initialize(src, options = {})
+    def initialize(src, parse_json: true)
       @src = kind_of_io?(src) ? src : src.to_s
-      @options = {
-        parse_json: true
-      }.merge(options)
+      @options = { parse_json: parse_json }
     end
 
     def search(program, &block)
