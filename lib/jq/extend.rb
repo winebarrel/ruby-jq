@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 require 'jq'
 
-module JQ::Extend
-  def jq(program, &block)
-    src = MultiJson.dump(self)
-    JQ(src).search(program, &block)
+module JQ
+  module Extend
+    def jq(program, &block)
+      src = MultiJson.dump(self)
+      JQ(src).search(program, &block)
+    end
   end
 end
 

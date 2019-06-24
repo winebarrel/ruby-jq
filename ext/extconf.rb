@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'mkmf'
 
 def using_system_libraries?
-  arg_config('--use-system-libraries', !!ENV['RUBYJQ_USE_SYSTEM_LIBRARIES'])
+  arg_config('--use-system-libraries', ENV.key?('RUBYJQ_USE_SYSTEM_LIBRARIES'))
 end
 
 unless using_system_libraries?
@@ -10,24 +12,24 @@ unless using_system_libraries?
   require 'rubygems'
   require 'mini_portile2'
 
-  recipe = MiniPortile.new("jq", "1.6")
-  recipe.files = ["https://github.com/stedolan/jq/archive/jq-1.6.tar.gz"]
+  recipe = MiniPortile.new('jq', '1.6')
+  recipe.files = ['https://github.com/stedolan/jq/archive/jq-1.6.tar.gz']
   recipe.configure_options = [
-    "--enable-shared",
-    "--disable-maintainer-mode"
+    '--enable-shared',
+    '--disable-maintainer-mode'
   ]
   class << recipe
     def configure
-      execute("autoreconf", "autoreconf -i")
+      execute('autoreconf', 'autoreconf -i')
       super
     end
   end
   recipe.cook
   recipe.activate
-  $LIBPATH = ["#{recipe.path}/lib"] | $LIBPATH
-  $CPPFLAGS << " -I#{recipe.path}/include"
+  $LIBPATH = ["#{recipe.path}/lib"] | $LIBPATH # rubocop:disable Style/GlobalVars
+  $CPPFLAGS << " -I#{recipe.path}/include" # rubocop:disable Style/GlobalVars
 end
 
-abort "libjq not found" unless have_library('jq')
+abort 'libjq not found' unless have_library('jq')
 
 create_makefile('jq_core')
