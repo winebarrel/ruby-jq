@@ -12,3 +12,6 @@ addons:
   apt:
     packages:
       - libonig-dev
+cache:
+  directories:
+    - /home/travis/.rvm/
