@@ -3,10 +3,11 @@
 static VALUE rb_eJQ_Error;
 
 static void jq_err_cb(void *data, jv msg) {
+  VALUE errmsg;
   struct jq_container *p = (struct jq_container *) data;
   msg = jq_format_error(msg);
 
-  VALUE errmsg = rb_str_new2(jv_string_value(msg));
+  errmsg = rb_str_new2(jv_string_value(msg));
 
   if (NIL_P(p->errmsg)) {
     p->errmsg = errmsg;
@@ -84,8 +85,8 @@ static VALUE rb_jq_close(VALUE self) {
 }
 
 static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status, VALUE *errmsg) {
-  jq_start(jq, value, 0);
   jv result;
+  jq_start(jq, value, 0);
 
   while (jv_is_valid(result = jq_next(jq))) {
     jv dumped = jv_dump_string(result, 0);
