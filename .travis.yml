@@ -2,9 +2,9 @@ sudo: false
 language: ruby
 rvm:
   - 2.3.8
-  - 2.4.6
-  - 2.5.5
-  - 2.6.3
+  - 2.4.9
+  - 2.5.7
+  - 2.6.5
 script:
   - bundle install
   - bundle exec rake
