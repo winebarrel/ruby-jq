@@ -20,7 +20,8 @@ unless using_system_libraries?
   ]
   class << recipe
     def configure
-      execute('autoreconf', 'autoreconf -i')
+      # https://github.com/stedolan/jq/issues/1778
+      execute('autoreconf', 'autoreconf -fi')
       super
     end
   end
