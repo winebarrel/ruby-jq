@@ -13,7 +13,7 @@ unless using_system_libraries?
   require 'mini_portile2'
 
   recipe = MiniPortile.new('jq', '1.6')
-  recipe.files = ['https://github.com/stedolan/jq/archive/jq-1.6.tar.gz']
+  recipe.files = ['https://github.com/stedolan/jq/releases/download/jq-1.6/jq-1.6.tar.gz']
   recipe.configure_options = [
     '--enable-shared',
     '--disable-maintainer-mode'
