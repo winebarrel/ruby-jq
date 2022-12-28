@@ -31,7 +31,7 @@ unless using_system_libraries?
 
   recipe = MiniPortile.new('jq', '1.6')
   recipe.files = ['https://github.com/stedolan/jq/archive/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8.tar.gz']
-  recipe.patch_files << File.join(File.dirname(File.expand_path(__FILE__)), "jq-onigmo.patch")
+  recipe.patch_files << File.join(File.dirname(File.expand_path(__FILE__)), 'jq-onigmo.patch')
   recipe.configure_options = [
     '--disable-static',
     '--disable-maintainer-mode'

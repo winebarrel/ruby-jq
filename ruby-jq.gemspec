@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Ruby bindings for jq'
   spec.homepage      = 'https://github.com/winebarrel/ruby-jq'
   spec.license       = 'MIT'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   spec.extensions    = 'ext/extconf.rb'
