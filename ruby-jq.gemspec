@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'multi_json', '~> 1.15', '>= 1.10.0'
-  spec.add_runtime_dependency 'mini_portile2', '~> 2.2', '>= 2.2.0'
+  spec.add_runtime_dependency 'mini_portile2', '~> 2.8', '>= 2.8.1'
 
   spec.add_development_dependency 'rake', '~> 0.9.6'
   spec.add_development_dependency 'rake-compiler', '~> 0.9.9'
