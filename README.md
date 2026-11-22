@@ -1,5 +1,9 @@
 # ruby-jq
 
+> [!WARNING]
+> This repository is archived and no longer maintained.
+> Please use [rbjq](https://github.com/winebarrel/rbjq), a pure Ruby implementation of jq, instead.
+
 Ruby bindings for jq.
 
 see [http://stedolan.github.io/jq/](http://stedolan.github.io/jq/).
