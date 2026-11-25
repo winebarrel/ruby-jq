@@ -1,0 +1,62 @@
+--- configure.ac
++++ configure.ac
+@@ -270,10 +270,10 @@ AS_IF([test "x$with_oniguruma" != xno], [
+        # check for ONIGURUMA library, either in /usr or where requested
+        CFLAGS="$CFLAGS $onig_CFLAGS"
+        LDFLAGS="$LDFLAGS $onig_LDFLAGS"
+-       AC_CHECK_HEADER("oniguruma.h",
+-          AC_CHECK_LIB([onig],[onig_version]))
++       AC_CHECK_HEADER("onigmo.h",
++          AC_CHECK_LIB([onigmo],[onig_version]))
+        # handle check results
+-       AS_IF([test "x$ac_cv_lib_onig_onig_version" != "xyes"], [
++       AS_IF([test "x$ac_cv_lib_onigmo_onig_version" != "xyes"], [
+           build_oniguruma=yes
+           AC_MSG_NOTICE([Oniguruma was not found. Will use the packaged oniguruma.])
+        ])
+--- src/builtin.c
++++ src/builtin.c
+@@ -29,8 +29,8 @@ void *alloca (size_t);
+ #include <ctype.h>
+ #include <limits.h>
+ #include <math.h>
+-#ifdef HAVE_LIBONIG
+-#include <oniguruma.h>
++#ifdef HAVE_LIBONIGMO
++#include <onigmo.h>
+ #endif
+ #include <string.h>
+ #include <time.h>
+@@ -801,7 +801,7 @@ static jv f_group_by_impl(jq_state *jq, jv input, jv keys) {
+   }
+ }
+ 
+-#ifdef HAVE_LIBONIG
++#ifdef HAVE_LIBONIGMO
+ static int f_match_name_iter(const UChar* name, const UChar *name_end, int ngroups,
+     int *groups, regex_t *reg, void *arg) {
+   jv captures = *(jv*)arg;
+@@ -889,7 +889,7 @@ static jv f_match(jq_state *jq, jv input, jv regex, jv modifiers, jv testmode) {
+ 
+   onigret = onig_new(&reg, (const UChar*)jv_string_value(regex),
+       (const UChar*)(jv_string_value(regex) + jv_string_length_bytes(jv_copy(regex))),
+-      options, ONIG_ENCODING_UTF8, ONIG_SYNTAX_PERL_NG, &einfo);
++      options, ONIG_ENCODING_UTF8, ONIG_SYNTAX_PERL58_NG, &einfo);
+   if (onigret != ONIG_NORMAL) {
+     UChar ebuf[ONIG_MAX_ERROR_MESSAGE_LEN];
+     onig_error_code_to_str(ebuf, onigret, &einfo);
+@@ -1005,11 +1005,11 @@ static jv f_match(jq_state *jq, jv input, jv regex, jv modifiers, jv testmode) {
+   jv_free(regex);
+   return result;
+ }
+-#else /* !HAVE_LIBONIG */
++#else /* !HAVE_LIBONIGMO */
+ static jv f_match(jq_state *jq, jv input, jv regex, jv modifiers, jv testmode) {
+-  return jv_invalid_with_msg(jv_string("jq was compiled without ONIGURUMA regex library. match/test/sub and related functions are not available."));
++  return jv_invalid_with_msg(jv_string("jq was compiled without ONIGMO regex library. match/test/sub and related functions are not available."));
+ }
+-#endif /* HAVE_LIBONIG */
++#endif /* HAVE_LIBONIGMO */
+ 
+ static jv minmax_by(jv values, jv keys, int is_min) {
+   if (jv_get_kind(values) != JV_KIND_ARRAY)

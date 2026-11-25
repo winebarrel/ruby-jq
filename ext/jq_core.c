@@ -95,6 +95,7 @@ static void jq_process(jq_state *jq, jv value, VALUE (*proc)(), int *status, VAL
     if (*status == 0) {
       rb_protect(proc, rb_str_new2(str), status);
     }
+    jv_free(dumped);
   }
 
   if (jv_invalid_has_msg(jv_copy(result))) {
